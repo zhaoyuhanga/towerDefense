@@ -4,15 +4,14 @@
 |-------|-------|
 | **Engine Version** | Godot 4.6 |
 | **Release Date** | January 2026 |
-| **Project Pinned** | 2026-02-12 |
-| **Last Docs Verified** | 2026-02-12 |
+| **Project Pinned** | 2026-06-01 |
+| **Last Docs Verified** | 2026-06-01 |
 | **LLM Knowledge Cutoff** | May 2025 |
+| **Risk Level** | HIGH — version is significantly beyond LLM training data |
 
 ## Knowledge Gap Warning
 
-The LLM's training data likely covers Godot up to ~4.3. Versions 4.4, 4.5,
-and 4.6 introduced significant changes that the model does NOT know about.
-Always cross-reference this directory before suggesting Godot API calls.
+The LLM's training data covers Godot up to ~4.3. Versions 4.4, 4.5, and 4.6 introduced significant changes that the model does NOT know about. Always cross-reference this directory before suggesting Godot API calls.
 
 ## Post-Cutoff Version Timeline
 

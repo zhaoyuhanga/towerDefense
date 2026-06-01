@@ -1,56 +1,218 @@
 # Technical Requirement ID Registry
-#
-# PURPOSE: Persistent, stable IDs for every GDD technical requirement.
-# Prevents TR-ID renumbering across /architecture-review runs, which would
-# break story references.
-#
-# RULES:
-#   - IDs are PERMANENT. Never renumber, never delete (use status: deprecated).
-#   - Add new entries only at the END of each system's list.
-#   - When a GDD requirement is reworded (same intent): update `requirement`
-#     text and add a `revised` date. The ID stays the same.
-#   - When a requirement is removed from the GDD: set status: deprecated.
-#   - When a requirement is split or replaced: set status: superseded-by with
-#     the new TR-ID(s).
-#
-# WRITTEN BY: /architecture-review (appends new entries, never overwrites)
-# READ BY:    /create-stories (embed IDs in stories)
-#             /story-done (look up current requirement text at review time)
-#             /story-readiness (validate TR-ID exists and is active)
-#
-# ID FORMAT: TR-[system-slug]-[NNN]
-#   system-slug = short slug matching the GDD system name
-#   NNN = three-digit zero-padded sequence per system, starting at 001
-#
-# STATUS VALUES: active | deprecated | superseded-by: TR-[system]-NNN
-
+# Persistent stable IDs for every GDD technical requirement.
+# Written by /architecture-review 2026-06-01
 version: 1
-last_updated: ""
+last_updated: "2026-06-01"
 
-requirements: []
+requirements:
+  # ===== FOUNDATION LAYER =====
+  # board-grid (13)
+  - {id: TR-grid-001, system: board-grid, gdd: design/gdd/board-grid.md, requirement: "20x15 cell state grid with 5 CellState enum values", adr: [ADR-0005], status: active, created: 2026-06-01}
+  - {id: TR-grid-002, system: board-grid, gdd: design/gdd/board-grid.md, requirement: "Single write gate set_cell_state() with transition validation returning bool", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-grid-003, system: board-grid, gdd: design/gdd/board-grid.md, requirement: "ENTRANCE/EXIT immutable after initial placement", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-grid-004, system: board-grid, gdd: design/gdd/board-grid.md, requirement: "TOWER merge executes atomically in-frame TOWER→EMPTY→TOWER", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-grid-005, system: board-grid, gdd: design/gdd/board-grid.md, requirement: "cell_state_changed signal on every state transition", adr: [ADR-0001], status: active, created: 2026-06-01}
+  - {id: TR-grid-006, system: board-grid, gdd: design/gdd/board-grid.md, requirement: "grid_to_world()/world_to_grid() coordinate conversion", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-grid-007, system: board-grid, gdd: design/gdd/board-grid.md, requirement: "get_neighbors() 4-directional filtered to in-bounds", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-grid-008, system: board-grid, gdd: design/gdd/board-grid.md, requirement: "is_valid_position() as single bounds authority", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-grid-009, system: board-grid, gdd: design/gdd/board-grid.md, requirement: "GRID_ORIGIN recalculated on window resize", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-grid-010, system: board-grid, gdd: design/gdd/board-grid.md, requirement: "Grid rendered via TileMapLayer per ADR-0005", adr: [ADR-0005], status: active, created: 2026-06-01}
+  - {id: TR-grid-011, system: board-grid, gdd: design/gdd/board-grid.md, requirement: "Phase-dependent grid visibility PREP 70-80% / BATTLE ~60%", adr: [ADR-0005, ADR-0006], status: active, created: 2026-06-01}
+  - {id: TR-grid-012, system: board-grid, gdd: design/gdd/board-grid.md, requirement: "Foundation-layer — zero upstream dependencies", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-grid-013, system: board-grid, gdd: design/gdd/board-grid.md, requirement: "GridConfig.tres for all sizing constants", adr: [ADR-0002], status: active, created: 2026-06-01}
 
-# --- EXAMPLE ENTRIES (remove when first real entries are added) ---
-#
-# - id: TR-combat-001
-#   system: combat
-#   gdd: design/gdd/combat-system.md
-#   requirement: "Player takes damage from enemies based on attack power minus defence"
-#   created: 2026-03-10
-#   revised: ""
-#   status: active
-#
-# - id: TR-combat-002
-#   system: combat
-#   gdd: design/gdd/combat-system.md
-#   requirement: "Combo window timing is 0.4 seconds between hits"
-#   created: 2026-03-10
-#   revised: "2026-04-01"
-#   status: active
-#
-# - id: TR-combat-003
-#   system: combat
-#   gdd: design/gdd/combat-system.md
-#   requirement: "Old damage formula using raw stats"
-#   created: 2026-03-10
-#   revised: ""
-#   status: superseded-by: TR-combat-001
+  # data-config (9)
+  - {id: TR-config-001, system: data-config, gdd: design/gdd/data-config.md, requirement: "All tunable values in .tres files — no hardcoded literals", adr: [ADR-0002], status: active, created: 2026-06-01}
+  - {id: TR-config-002, system: data-config, gdd: design/gdd/data-config.md, requirement: "Resource classes: TowerData/MonsterData/WaveRules/EconomyConfig/SkillConfig/GridConfig", adr: [ADR-0002], status: active, created: 2026-06-01}
+  - {id: TR-config-003, system: data-config, gdd: design/gdd/data-config.md, requirement: "Each system self-loads .tres via DirAccess into Dictionary[key]", adr: [ADR-0002], status: active, created: 2026-06-01}
+  - {id: TR-config-004, system: data-config, gdd: design/gdd/data-config.md, requirement: "Fail-safe loading — missing files fall back to defaults, never crash", adr: [ADR-0002], status: active, created: 2026-06-01}
+  - {id: TR-config-005, system: data-config, gdd: design/gdd/data-config.md, requirement: "Data integrity validation at load time", adr: [ADR-0002], status: active, created: 2026-06-01}
+  - {id: TR-config-006, system: data-config, gdd: design/gdd/data-config.md, requirement: "Duplicate tower_id+star_level rejected with warning", adr: [ADR-0002], status: active, created: 2026-06-01}
+  - {id: TR-config-007, system: data-config, gdd: design/gdd/data-config.md, requirement: "Invalid monster_id in SpawnRule skipped with warning", adr: [ADR-0002], status: active, created: 2026-06-01}
+  - {id: TR-config-008, system: data-config, gdd: design/gdd/data-config.md, requirement: "EconomyConfig validation with fallback defaults", adr: [ADR-0002], status: active, created: 2026-06-01}
+  - {id: TR-config-009, system: data-config, gdd: design/gdd/data-config.md, requirement: "Data loading pipeline completes before any gameplay query", adr: [ADR-0002], status: active, created: 2026-06-01}
+
+  # input-handling (8)
+  - {id: TR-input-001, system: input-handling, gdd: design/gdd/input-handling.md, requirement: "Phase-dependent input dispatch table PREP vs BATTLE", adr: [ADR-0007], status: active, created: 2026-06-01}
+  - {id: TR-input-002, system: input-handling, gdd: design/gdd/input-handling.md, requirement: "Single-path dispatcher priority UI>Tower>Block>Empty>Void", adr: [ADR-0007], status: active, created: 2026-06-01}
+  - {id: TR-input-003, system: input-handling, gdd: design/gdd/input-handling.md, requirement: "Click vs drag distinction DRAG_THRESHOLD=3px", adr: [ADR-0007], status: active, created: 2026-06-01}
+  - {id: TR-input-004, system: input-handling, gdd: design/gdd/input-handling.md, requirement: "Force-cancel drag on right-click/out-of-bounds/phase-switch", adr: [ADR-0007], status: active, created: 2026-06-01}
+  - {id: TR-input-005, system: input-handling, gdd: design/gdd/input-handling.md, requirement: "UI layer intercepts all Control element clicks", adr: [ADR-0007], status: active, created: 2026-06-01}
+  - {id: TR-input-006, system: input-handling, gdd: design/gdd/input-handling.md, requirement: "Rapid sequential clicks processed independently", adr: [ADR-0007], status: active, created: 2026-06-01}
+  - {id: TR-input-007, system: input-handling, gdd: design/gdd/input-handling.md, requirement: "Architecture extensible to keyboard shortcuts (MVP mouse-only)", adr: [ADR-0007], status: active, created: 2026-06-01}
+  - {id: TR-input-008, system: input-handling, gdd: design/gdd/input-handling.md, requirement: "Phase-switch animation input discarded not queued", adr: [ADR-0007], status: active, created: 2026-06-01}
+
+  # ===== CORE LAYER =====
+  # pathfinding (8)
+  - {id: TR-path-001, system: pathfinding, gdd: design/gdd/pathfinding.md, requirement: "AStarGrid2D 20x15 — walkable=EMPTY/ENTRANCE/EXIT, solid=BLOCK/TOWER", adr: [ADR-0003], status: active, created: 2026-06-01}
+  - {id: TR-path-002, system: pathfinding, gdd: design/gdd/pathfinding.md, requirement: "Full A* recalc on cell_state_changed <1ms over 300 cells", adr: [ADR-0003], status: active, created: 2026-06-01}
+  - {id: TR-path-003, system: pathfinding, gdd: design/gdd/pathfinding.md, requirement: "path_blocked and path_updated signal emission", adr: [ADR-0001, ADR-0003], status: active, created: 2026-06-01}
+  - {id: TR-path-004, system: pathfinding, gdd: design/gdd/pathfinding.md, requirement: "is_path_reachable() synchronous pre-check without mutating grid", adr: [ADR-0003], status: active, created: 2026-06-01}
+  - {id: TR-path-005, system: pathfinding, gdd: design/gdd/pathfinding.md, requirement: "Each monster caches own path Array[Vector2i] at spawn, updates on path_updated", adr: [ADR-0004], status: active, created: 2026-06-01}
+  - {id: TR-path-006, system: pathfinding, gdd: design/gdd/pathfinding.md, requirement: "Manhattan distance heuristic, uniform step cost=1, no diagonals", adr: [ADR-0003], status: active, created: 2026-06-01}
+  - {id: TR-path-007, system: pathfinding, gdd: design/gdd/pathfinding.md, requirement: "Correct shortest paths for corridors, L-bends, interior loops", adr: [ADR-0003], status: active, created: 2026-06-01}
+  - {id: TR-path-008, system: pathfinding, gdd: design/gdd/pathfinding.md, requirement: "Zero tuning knobs — behavior entirely determined by board cell state", adr: [], status: active, created: 2026-06-01}
+
+  # obstacle-block (7)
+  - {id: TR-block-001, system: obstacle-block, gdd: design/gdd/obstacle-block.md, requirement: "can_place() checks EMPTY+count>0+gold>=cost+is_path_reachable() in order", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-block-002, system: obstacle-block, gdd: design/gdd/obstacle-block.md, requirement: "place_block() atomically: debit gold, set BLOCK, decrement count, emit signal", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-block-003, system: obstacle-block, gdd: design/gdd/obstacle-block.md, requirement: "Rapid placements queued until prior path recalc completes", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-block-004, system: obstacle-block, gdd: design/gdd/obstacle-block.md, requirement: "remove_block() validates BLOCK, sets EMPTY, credits gold, increments count", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-block-005, system: obstacle-block, gdd: design/gdd/obstacle-block.md, requirement: "All operations phase-gated — reject in BATTLE", adr: [ADR-0006], status: active, created: 2026-06-01}
+  - {id: TR-block-006, system: obstacle-block, gdd: design/gdd/obstacle-block.md, requirement: "block_count_changed signal for HUD display", adr: [ADR-0001], status: active, created: 2026-06-01}
+  - {id: TR-block-007, system: obstacle-block, gdd: design/gdd/obstacle-block.md, requirement: "BLOCK_COST/SELL_VALUE/MAX_BLOCKS from EconomyConfig.tres", adr: [ADR-0002], status: active, created: 2026-06-01}
+
+  # monster-system (10)
+  - {id: TR-monster-001, system: monster-system, gdd: design/gdd/monster-system.md, requirement: "Object pool with configurable size (default 50) to avoid GC spikes", adr: [ADR-0004], status: active, created: 2026-06-01}
+  - {id: TR-monster-002, system: monster-system, gdd: design/gdd/monster-system.md, requirement: "Per-frame movement: position+=direction*speed*delta, waypoint advancement on threshold", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-monster-003, system: monster-system, gdd: design/gdd/monster-system.md, requirement: "FSM: SPAWNING→MOVING→DYING|BREACHED + STUNNED overlay", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-monster-004, system: monster-system, gdd: design/gdd/monster-system.md, requirement: "monster_died(id,pos,reward) and monster_breached(pos,path) signals", adr: [ADR-0001, ADR-0004], status: active, created: 2026-06-01}
+  - {id: TR-monster-005, system: monster-system, gdd: design/gdd/monster-system.md, requirement: "get_active_monsters()→Array[Monster] for tower targeting", adr: [ADR-0004], status: active, created: 2026-06-01}
+  - {id: TR-monster-006, system: monster-system, gdd: design/gdd/monster-system.md, requirement: "take_damage() and apply_effect() as single mutation entry points", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-monster-007, system: monster-system, gdd: design/gdd/monster-system.md, requirement: "STUNNED cleared on death — no frozen corpses", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-monster-008, system: monster-system, gdd: design/gdd/monster-system.md, requirement: "No spawn if path empty — warn wave system", adr: [ADR-0003], status: active, created: 2026-06-01}
+  - {id: TR-monster-009, system: monster-system, gdd: design/gdd/monster-system.md, requirement: "No monster-monster collision — small random offset for visual overlap", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-monster-010, system: monster-system, gdd: design/gdd/monster-system.md, requirement: "All monster attributes from MonsterData resources — zero hardcoded values", adr: [ADR-0002], status: active, created: 2026-06-01}
+
+  # tower-system (10)
+  - {id: TR-tower-001, system: tower-system, gdd: design/gdd/tower-system.md, requirement: "Timer-driven attack loop: query active monsters, filter by range, target highest waypoint_index", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-tower-002, system: tower-system, gdd: design/gdd/tower-system.md, requirement: "Towers never call monster.take_damage() directly — always through Combat system", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-tower-003, system: tower-system, gdd: design/gdd/tower-system.md, requirement: "Three attack modes: Cannon=AOE, Ice=slow, Arrow=pierce+bounce", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-tower-004, system: tower-system, gdd: design/gdd/tower-system.md, requirement: "Star scaling data-driven: 1s=baseline, 2s=attack×2.0 range+15%, 3s=attack×4.0 range+30%", adr: [ADR-0002], status: active, created: 2026-06-01}
+  - {id: TR-tower-005, system: tower-system, gdd: design/gdd/tower-system.md, requirement: "Sell phase-gated to PREP, credits TowerData.sell_value, sets cell EMPTY", adr: [ADR-0006], status: active, created: 2026-06-01}
+  - {id: TR-tower-006, system: tower-system, gdd: design/gdd/tower-system.md, requirement: "Target death mid-flight → new target on next tick, attack not redirected", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-tower-007, system: tower-system, gdd: design/gdd/tower-system.md, requirement: "Merge animation gap (~0.8s): no attacks from that cell during merge window", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-tower-008, system: tower-system, gdd: design/gdd/tower-system.md, requirement: "Ice slow effects not stackable — only highest slow value applies", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-tower-009, system: tower-system, gdd: design/gdd/tower-system.md, requirement: "Arrow pierce 30% random — configurable vs deterministic future option", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-tower-010, system: tower-system, gdd: design/gdd/tower-system.md, requirement: "Multiple towers attacking same monster independently — no damage coordination", adr: [], status: active, created: 2026-06-01}
+
+  # combat-damage (8)
+  - {id: TR-combat-001, system: combat-damage, gdd: design/gdd/combat-damage.md, requirement: "process_attack() as sole damage entry point for all towers", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-combat-002, system: combat-damage, gdd: design/gdd/combat-damage.md, requirement: "Dispatch by type: NORMAL(flat), AOE(splash 3x3), SLOW(speed-), PIERCE(bounce 0.8^n)", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-combat-003, system: combat-damage, gdd: design/gdd/combat-damage.md, requirement: "All damage true for MVP — no armor/resistance/crits; architecture not preclude later", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-combat-004, system: combat-damage, gdd: design/gdd/combat-damage.md, requirement: "AOE splash queries 3x3 area around primary target", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-combat-005, system: combat-damage, gdd: design/gdd/combat-damage.md, requirement: "Pierce bounce_damage[n]=attack*(0.8^n), terminate when no eligible target", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-combat-006, system: combat-damage, gdd: design/gdd/combat-damage.md, requirement: "damage_dealt signal emitted per damage instance for VFX floating numbers", adr: [ADR-0001], status: active, created: 2026-06-01}
+  - {id: TR-combat-007, system: combat-damage, gdd: design/gdd/combat-damage.md, requirement: "Dead target (health≤0) at attack resolution → damage wasted, no retarget", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-combat-008, system: combat-damage, gdd: design/gdd/combat-damage.md, requirement: "Overkill permitted — simultaneous attacks, full damage applied, excess wasted", adr: [], status: active, created: 2026-06-01}
+
+  # economy (8)
+  - {id: TR-econ-001, system: economy, gdd: design/gdd/economy.md, requirement: "Single currency (gold) int32, initialized from EconomyConfig.starting_gold", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-econ-002, system: economy, gdd: design/gdd/economy.md, requirement: "spend_gold() atomic check-then-deduct, balance never negative", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-econ-003, system: economy, gdd: design/gdd/economy.md, requirement: "add_gold() credits balance and emits gold_changed", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-econ-004, system: economy, gdd: design/gdd/economy.md, requirement: "gold_changed signal on every balance change — HUD subscribes", adr: [ADR-0001], status: active, created: 2026-06-01}
+  - {id: TR-econ-005, system: economy, gdd: design/gdd/economy.md, requirement: "can_afford() as single pre-check for all purchase paths", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-econ-006, system: economy, gdd: design/gdd/economy.md, requirement: "Sell-price validation at data-config load time, not runtime", adr: [ADR-0002], status: active, created: 2026-06-01}
+  - {id: TR-econ-007, system: economy, gdd: design/gdd/economy.md, requirement: "No balance ceiling (int32 range sufficient), no passive income in MVP", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-econ-008, system: economy, gdd: design/gdd/economy.md, requirement: "All economic constants from EconomyConfig.tres", adr: [ADR-0002], status: active, created: 2026-06-01}
+
+  # ===== FEATURE LAYER =====
+  # wave-spawner (10)
+  - {id: TR-wave-001, system: wave-spawner, gdd: design/gdd/wave-spawner.md, requirement: "WaveRules data-driven spawn scheduling from SpawnRule arrays", adr: [ADR-0002], status: active, created: 2026-06-01}
+  - {id: TR-wave-002, system: wave-spawner, gdd: design/gdd/wave-spawner.md, requirement: "Timed sequential spawning from ENTRANCE at spawn_interval intervals", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-wave-003, system: wave-spawner, gdd: design/gdd/wave-spawner.md, requirement: "Wave-end when all spawned monsters killed or breached", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-wave-004, system: wave-spawner, gdd: design/gdd/wave-spawner.md, requirement: "Inter-wave auto-transition with configurable delay (~3s)", adr: [ADR-0006], status: active, created: 2026-06-01}
+  - {id: TR-wave-005, system: wave-spawner, gdd: design/gdd/wave-spawner.md, requirement: "Per-wave stat scaling: health*=1+wave*multiplier with thresholds", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-wave-006, system: wave-spawner, gdd: design/gdd/wave-spawner.md, requirement: "Affix activation gate at wave 26+", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-wave-007, system: wave-spawner, gdd: design/gdd/wave-spawner.md, requirement: "Infinite wave loop — counter increments without bound", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-wave-008, system: wave-spawner, gdd: design/gdd/wave-spawner.md, requirement: "Invalid monster_id in SpawnRule skipped with log, not crash", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-wave-009, system: wave-spawner, gdd: design/gdd/wave-spawner.md, requirement: "wave_started and wave_ended signal broadcast", adr: [ADR-0001], status: active, created: 2026-06-01}
+  - {id: TR-wave-010, system: wave-spawner, gdd: design/gdd/wave-spawner.md, requirement: "Hard dependency on MonsterPool.spawn() for instantiation", adr: [ADR-0004], status: active, created: 2026-06-01}
+
+  # merge-upgrade (12)
+  - {id: TR-merge-001, system: merge-upgrade, gdd: design/gdd/merge-upgrade.md, requirement: "Drag-and-drop recognizer identifying source/target towers by grid coords", adr: [ADR-0007], status: active, created: 2026-06-01}
+  - {id: TR-merge-002, system: merge-upgrade, gdd: design/gdd/merge-upgrade.md, requirement: "Merge eligibility: same tower_id AND star_level AND star<3", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-merge-003, system: merge-upgrade, gdd: design/gdd/merge-upgrade.md, requirement: "Atomic merge: destroy two sources, create one new at target cell", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-merge-004, system: merge-upgrade, gdd: design/gdd/merge-upgrade.md, requirement: "Result tower stats from TowerData (new star_level), not computed from consumed towers", adr: [ADR-0002], status: active, created: 2026-06-01}
+  - {id: TR-merge-005, system: merge-upgrade, gdd: design/gdd/merge-upgrade.md, requirement: "Economy integration — deduct merge_cost, abort on insufficient funds", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-merge-006, system: merge-upgrade, gdd: design/gdd/merge-upgrade.md, requirement: "Grid cell state atomic update: target cell occupant changes, source becomes EMPTY", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-merge-007, system: merge-upgrade, gdd: design/gdd/merge-upgrade.md, requirement: "Phase gating — merge only valid during PREP", adr: [ADR-0006, ADR-0007], status: active, created: 2026-06-01}
+  - {id: TR-merge-008, system: merge-upgrade, gdd: design/gdd/merge-upgrade.md, requirement: "merge_completed and merge_failed signal emission", adr: [ADR-0001], status: active, created: 2026-06-01}
+  - {id: TR-merge-009, system: merge-upgrade, gdd: design/gdd/merge-upgrade.md, requirement: "Failure rebound animation (~0.3s elastic ease-out) on invalid merge", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-merge-010, system: merge-upgrade, gdd: design/gdd/merge-upgrade.md, requirement: "5-stage merge animation coordination (~0.6-0.8s) per Art Bible §5.4", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-merge-011, system: merge-upgrade, gdd: design/gdd/merge-upgrade.md, requirement: "Hard dependency on Tower system for create/destroy/get", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-merge-012, system: merge-upgrade, gdd: design/gdd/merge-upgrade.md, requirement: "Hard dependency on Board Grid for cell state queries/updates", adr: [], status: active, created: 2026-06-01}
+
+  # prep-phase (8)
+  - {id: TR-prep-001, system: prep-phase, gdd: design/gdd/prep-phase.md, requirement: "Phase state machine PREP↔BATTLE via player action and wave-end event", adr: [ADR-0006], status: active, created: 2026-06-01}
+  - {id: TR-prep-002, system: prep-phase, gdd: design/gdd/prep-phase.md, requirement: "phase_changed signal broadcast to all systems", adr: [ADR-0001, ADR-0006], status: active, created: 2026-06-01}
+  - {id: TR-prep-003, system: prep-phase, gdd: design/gdd/prep-phase.md, requirement: "Build ops only in PREP, emergency skills only in BATTLE", adr: [ADR-0007], status: active, created: 2026-06-01}
+  - {id: TR-prep-004, system: prep-phase, gdd: design/gdd/prep-phase.md, requirement: "Phase transition input guard — discard inputs during switch, not queue", adr: [ADR-0007], status: active, created: 2026-06-01}
+  - {id: TR-prep-005, system: prep-phase, gdd: design/gdd/prep-phase.md, requirement: "Next-wave preview data queryable by HUD during PREP", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-prep-006, system: prep-phase, gdd: design/gdd/prep-phase.md, requirement: "Game initialization defaults to PREP on first load", adr: [ADR-0006], status: active, created: 2026-06-01}
+  - {id: TR-prep-007, system: prep-phase, gdd: design/gdd/prep-phase.md, requirement: "Hard dependency on InputHandler for phase-gating", adr: [ADR-0007], status: active, created: 2026-06-01}
+  - {id: TR-prep-008, system: prep-phase, gdd: design/gdd/prep-phase.md, requirement: "Hard dependency on WaveSpawner — BATTLE start triggered by prep start action", adr: [ADR-0006], status: active, created: 2026-06-01}
+
+  # emergency-skills (11)
+  - {id: TR-eskill-001, system: emergency-skills, gdd: design/gdd/emergency-skills.md, requirement: "Freeze: speed=0 to ALL active monsters for configurable duration", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-eskill-002, system: emergency-skills, gdd: design/gdd/emergency-skills.md, requirement: "Repair: increment defense HP by effect_amount, clamp to max", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-eskill-003, system: emergency-skills, gdd: design/gdd/emergency-skills.md, requirement: "Per-skill use counter with configurable max_uses, zero = unavailable", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-eskill-004, system: emergency-skills, gdd: design/gdd/emergency-skills.md, requirement: "Per-wave use-count replenishment hook at wave start", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-eskill-005, system: emergency-skills, gdd: design/gdd/emergency-skills.md, requirement: "Per-skill cooldown timer between consecutive activations", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-eskill-006, system: emergency-skills, gdd: design/gdd/emergency-skills.md, requirement: "Phase gating — skills only activatable during BATTLE", adr: [ADR-0006], status: active, created: 2026-06-01}
+  - {id: TR-eskill-007, system: emergency-skills, gdd: design/gdd/emergency-skills.md, requirement: "Instant activation — effect applied same frame as input", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-eskill-008, system: emergency-skills, gdd: design/gdd/emergency-skills.md, requirement: "skill_activated signal broadcast", adr: [ADR-0001], status: active, created: 2026-06-01}
+  - {id: TR-eskill-009, system: emergency-skills, gdd: design/gdd/emergency-skills.md, requirement: "All skill properties from SkillConfig data asset", adr: [ADR-0002], status: active, created: 2026-06-01}
+  - {id: TR-eskill-010, system: emergency-skills, gdd: design/gdd/emergency-skills.md, requirement: "Hard dependency on Monster system apply_effect() for freeze", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-eskill-011, system: emergency-skills, gdd: design/gdd/emergency-skills.md, requirement: "UI button state machine: available/cooldown/depleted/hidden", adr: [], status: active, created: 2026-06-01}
+
+  # ===== PRESENTATION LAYER =====
+  # hud-ui (12)
+  - {id: TR-hud-001, system: hud-ui, gdd: design/gdd/hud-ui.md, requirement: "12+ widgets with real-time data binding to multiple data sources", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-hud-002, system: hud-ui, gdd: design/gdd/hud-ui.md, requirement: "Variable update frequency per widget — no per-frame polling", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-hud-003, system: hud-ui, gdd: design/gdd/hud-ui.md, requirement: "Read-only architecture — HUD subscribes to signals, never writes game state", adr: [ADR-0001], status: active, created: 2026-06-01}
+  - {id: TR-hud-004, system: hud-ui, gdd: design/gdd/hud-ui.md, requirement: "Button selection state rendering with gold outline", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-hud-005, system: hud-ui, gdd: design/gdd/hud-ui.md, requirement: "Merge preview popup on drag-start showing next star stats", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-hud-006, system: hud-ui, gdd: design/gdd/hud-ui.md, requirement: "Tower info tooltip on hover over placed tower", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-hud-007, system: hud-ui, gdd: design/gdd/hud-ui.md, requirement: "Placement preview ghost at hovered grid cell", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-hud-008, system: hud-ui, gdd: design/gdd/hud-ui.md, requirement: "Settlement popup overlay on wave_ended within game scene", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-hud-009, system: hud-ui, gdd: design/gdd/hud-ui.md, requirement: "Phase-dependent button visibility/interactability", adr: [ADR-0006], status: active, created: 2026-06-01}
+  - {id: TR-hud-010, system: hud-ui, gdd: design/gdd/hud-ui.md, requirement: "Fixed layout zones: top bar 48px, bottom bar 64px, center board", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-hud-011, system: hud-ui, gdd: design/gdd/hud-ui.md, requirement: "Pure geometric icon rendering per Art Bible §7 — 7-color palette", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-hud-012, system: hud-ui, gdd: design/gdd/hud-ui.md, requirement: "Silent-mode compatibility — all critical info conveyed visually", adr: [], status: active, created: 2026-06-01}
+
+  # visual-feedback (11)
+  - {id: TR-vfx-001, system: visual-feedback, gdd: design/gdd/visual-feedback.md, requirement: "Pure signal-consumer — subscribes to 7+ signals, writes no game state", adr: [ADR-0001], status: active, created: 2026-06-01}
+  - {id: TR-vfx-002, system: visual-feedback, gdd: design/gdd/visual-feedback.md, requirement: "Particle effect on monster_died at monster world position", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-vfx-003, system: visual-feedback, gdd: design/gdd/visual-feedback.md, requirement: "Path wound overlay on monster_breached along breach segment", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-vfx-004, system: visual-feedback, gdd: design/gdd/visual-feedback.md, requirement: "5-phase merge animation ~0.6-0.8s triggered by merge_completed", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-vfx-005, system: visual-feedback, gdd: design/gdd/visual-feedback.md, requirement: "Merge failure: elastic rebound + red X cursor on merge_failed", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-vfx-006, system: visual-feedback, gdd: design/gdd/visual-feedback.md, requirement: "Wave transition effects on wave_started/wave_ended", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-vfx-007, system: visual-feedback, gdd: design/gdd/visual-feedback.md, requirement: "Crisis red border flash when defense HP < 30%", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-vfx-008, system: visual-feedback, gdd: design/gdd/visual-feedback.md, requirement: "Block placement fade-in 0→100% over 0.15s, non-blocking", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-vfx-009, system: visual-feedback, gdd: design/gdd/visual-feedback.md, requirement: "Path redraw on path_updated/path_blocked", adr: [ADR-0005], status: active, created: 2026-06-01}
+  - {id: TR-vfx-010, system: visual-feedback, gdd: design/gdd/visual-feedback.md, requirement: "Floating damage numbers color-coded, simultaneous without culling", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-vfx-011, system: visual-feedback, gdd: design/gdd/visual-feedback.md, requirement: "Signal subscription lifecycle — register/unregister, no dangling refs", adr: [], status: active, created: 2026-06-01}
+
+  # ===== POLISH LAYER =====
+  # save-system (8)
+  - {id: TR-save-001, system: save-system, gdd: design/gdd/save-system.md, requirement: "Persistent storage to user://save_data.cfg via ConfigFile (INI)", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-save-002, system: save-system, gdd: design/gdd/save-system.md, requirement: "Auto-save high_score on game-over if current wave > stored", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-save-003, system: save-system, gdd: design/gdd/save-system.md, requirement: "Settings save on change — volume/fullscreen persisted immediately", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-save-004, system: save-system, gdd: design/gdd/save-system.md, requirement: "First-run defaults if save_data.cfg missing or keys absent", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-save-005, system: save-system, gdd: design/gdd/save-system.md, requirement: "Corrupted file recovery — delete corrupt file, log warning, use defaults", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-save-006, system: save-system, gdd: design/gdd/save-system.md, requirement: "No mid-session save/load — each game session atomic", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-save-007, system: save-system, gdd: design/gdd/save-system.md, requirement: "Concurrent write risk — last-write-wins acceptable, no file locking", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-save-008, system: save-system, gdd: design/gdd/save-system.md, requirement: "Save data read at scene init time for high_score display and settings", adr: [], status: active, created: 2026-06-01}
+
+  # audio (10)
+  - {id: TR-audio-001, system: audio, gdd: design/gdd/audio.md, requirement: "Pure signal-consumer — subscribes to 11+ signals, writes no game state", adr: [ADR-0001], status: active, created: 2026-06-01}
+  - {id: TR-audio-002, system: audio, gdd: design/gdd/audio.md, requirement: "Event-to-SFX mapping table — each game event maps to one audio resource", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-audio-003, system: audio, gdd: design/gdd/audio.md, requirement: "All audio OGG Vorbis format in assets/audio/sfx/ and music/", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-audio-004, system: audio, gdd: design/gdd/audio.md, requirement: "AudioStreamPlayer pool for N simultaneous channels", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-audio-005, system: audio, gdd: design/gdd/audio.md, requirement: "Volume control pipeline — master/sfx/music multipliers from save settings", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-audio-006, system: audio, gdd: design/gdd/audio.md, requirement: "Graceful degradation to silent mode — missing assets = no errors", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-audio-007, system: audio, gdd: design/gdd/audio.md, requirement: "Background music seamless gapless looping single track", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-audio-008, system: audio, gdd: design/gdd/audio.md, requirement: "SFX priority system with voice stealing when channels exhausted", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-audio-009, system: audio, gdd: design/gdd/audio.md, requirement: "Optional existence in MVP — all systems check audio availability", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-audio-010, system: audio, gdd: design/gdd/audio.md, requirement: "Volume change propagation — active players reflect new gain immediately", adr: [], status: active, created: 2026-06-01}
+
+  # scene-management (8)
+  - {id: TR-scene-001, system: scene-management, gdd: design/gdd/scene-management.md, requirement: "Scene switching via change_scene() — exactly menu.tscn + game.tscn", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-scene-002, system: scene-management, gdd: design/gdd/scene-management.md, requirement: "Play Again in-place reset without change_scene/reload", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-scene-003, system: scene-management, gdd: design/gdd/scene-management.md, requirement: "Settlement overlay as child of game.tscn, not separate scene", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-scene-004, system: scene-management, gdd: design/gdd/scene-management.md, requirement: "One-frame scene transition budget — no loading screen needed", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-scene-005, system: scene-management, gdd: design/gdd/scene-management.md, requirement: "Game init on scene load: board init, phase=PREP, all systems, save loaded", adr: [ADR-0006], status: active, created: 2026-06-01}
+  - {id: TR-scene-006, system: scene-management, gdd: design/gdd/scene-management.md, requirement: "Full state reset protocol: clear grid, reset economy/wave/skills, destroy entities", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-scene-007, system: scene-management, gdd: design/gdd/scene-management.md, requirement: "Cross-scene data flow: high_score readable by menu, writable by game-over", adr: [], status: active, created: 2026-06-01}
+  - {id: TR-scene-008, system: scene-management, gdd: design/gdd/scene-management.md, requirement: "Scene lifecycle isolation — clean teardown on scene switch (signals/timers/nodes)", adr: [], status: active, created: 2026-06-01}

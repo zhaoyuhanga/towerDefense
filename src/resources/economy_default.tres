@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="EconomyConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/economy_config.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+starting_gold = 200
+BLOCK_COST = 10
+BLOCK_SELL_VALUE = 5
+MERGE_COST = 0
+kill_reward_multiplier = 1.0

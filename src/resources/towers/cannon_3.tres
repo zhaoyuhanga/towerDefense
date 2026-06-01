@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="TowerData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/tower_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+tower_id = "cannon"
+tower_name = "Cannon Tower"
+star_level = 3
+attack = 80.0
+attack_speed = 1.0
+range = 195.0
+special_value = 0.0
+effect_duration = 0.0
+cost = 90
+sell_value = 45
+attack_type = "aoe"
+description = "A masterwork cannon that devastates clusters of monsters with massive area blasts."

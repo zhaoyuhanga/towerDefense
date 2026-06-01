@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://foundation/grid_renderer.gd" id="1"]
+[ext_resource type="Resource" path="res://resources/grid_tileset.tres" id="2"]
+
+[node name="GridRenderer" type="TileMapLayer"]
+script = ExtResource("1")
+tileset_config = ExtResource("2")
+tile_map_data = PackedByteArray()

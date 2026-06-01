@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="TowerData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/tower_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+tower_id = "cannon"
+tower_name = "Cannon Tower"
+star_level = 2
+attack = 40.0
+attack_speed = 1.0
+range = 172.0
+special_value = 0.0
+effect_duration = 0.0
+cost = 30
+sell_value = 15
+attack_type = "aoe"
+description = "An upgraded cannon with larger splash radius and higher damage."

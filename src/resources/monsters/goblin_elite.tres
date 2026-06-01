@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="MonsterData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/monster_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+monster_id = "goblin_elite"
+monster_name = "Goblin Elite"
+health = 150.0
+speed = 50.0
+reward_gold = 15
+tier = "Elite"
+size_ratio = 1.2
+has_affix = false
