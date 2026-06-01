@@ -8,15 +8,42 @@ extends Node2D
 func _draw() -> void:
 	if not tower_data:
 		return
-	var c := Color.GRAY
+	var base := Color.GRAY
+	var s := 13.0  # half-size
 	match tower_data.attack_type:
-		"aoe": c = Color.ORANGE_RED
-		"slow": c = Color.CORNFLOWER_BLUE
-		"pierce": c = Color.GREEN
-	draw_rect(Rect2(-14, -14, 28, 28), c)
-	draw_rect(Rect2(-14, -14, 28, 28), Color.WHITE, false, 2.0)
+		"aoe": base = Color.ORANGE_RED
+		"slow": base = Color.CORNFLOWER_BLUE
+		"pierce": base = Color.GREEN
+
+	# Base platform — all towers
+	draw_rect(Rect2(-s-2, -s-2, (s+2)*2, (s+2)*2), Color(0.15, 0.18, 0.25), true, 3.0)
+
+	# Tower shape by type
+	match tower_data.attack_type:
+		"aoe":
+			# Cannon — wide rectangle
+			draw_rect(Rect2(-s, -s*0.8, s*2, s*1.6), base, true, 3.0)
+			draw_rect(Rect2(-s*0.3, -s*1.2, s*0.6, s*0.5), base.darkened(0.3), true, 2.0)
+		"slow":
+			# Ice — diamond
+			var diamond := PackedVector2Array([Vector2(0, -s), Vector2(s, 0), Vector2(0, s), Vector2(-s, 0)])
+			draw_colored_polygon(diamond, base)
+			draw_polyline(diamond, Color.WHITE, 2.0)
+		"pierce":
+			# Arrow — triangle pointing right
+			var tri := PackedVector2Array([Vector2(-s, -s), Vector2(s, 0), Vector2(-s, s)])
+			draw_colored_polygon(tri, base)
+			draw_polyline(tri, Color.WHITE, 2.0)
+		_:
+			draw_rect(Rect2(-s, -s, s*2, s*2), base, true, 3.0)
+
+	# Star indicator — gold dots + glow ring
 	for i in range(tower_data.star_level):
-		draw_circle(Vector2(-8 + i * 8, 18), 2.0, Color.GOLD)
+		var sx := -6 + i * 6
+		draw_circle(Vector2(sx, s+4), 2.5, Color.GOLD)
+		draw_circle(Vector2(sx, s+4), 5.0, Color.GOLD, false, 1.0)
+	# Range ring when hovering (always visible for now)
+	draw_arc(Vector2.ZERO, s+10, 0, TAU, 32, base, false, 1.0)
 ## Architecture: docs/architecture/adr-0002-data-resources.md
 ##
 ## Lifecycle:

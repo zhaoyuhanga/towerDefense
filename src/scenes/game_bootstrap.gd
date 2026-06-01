@@ -12,6 +12,8 @@ var _wave_spawner: WaveSpawner
 var _tower_system: TowerSystem
 var _merge_system: MergeSystem
 var _hud: HUD
+var _hover: Node2D
+var _path_overlay: PathOverlay
 
 var _placement_mode: String = "block"
 var _selected_tower_id: String = "cannon"
@@ -35,6 +37,15 @@ func _ready() -> void:
 	_pathfinding.name = "Pathfinding"
 	add_child(_pathfinding)
 	_pathfinding.init(_board)
+
+	_path_overlay = PathOverlay.new()
+	_path_overlay.position = _board.origin
+	add_child(_path_overlay)
+	_path_overlay.setup(_pathfinding, _board)
+
+	_hover = HoverHighlight.new()
+	add_child(_hover)
+	set_process(true)
 
 	_economy = EconomySystem.new()
 	_economy.name = "Economy"
@@ -136,6 +147,17 @@ func _on_drag_ended(from_col: int, from_row: int, to_col: int, to_row: int) -> v
 	_merge_system.try_merge(from_col, from_row, to_col, to_row)
 
 
+func _process(_delta: float) -> void:
+	if not _board or not _hover: return
+	var gp := _board.world_to_grid(get_viewport().get_mouse_position())
+	var cs := _board.cell_size
+	if _board.is_valid_position(gp.x, gp.y):
+		_hover.position = _board.grid_to_world(gp.x, gp.y) - Vector2(cs/2.0, cs/2.0)
+		_hover.visible = true; _hover.queue_redraw()
+	else:
+		_hover.visible = false
+
+
 func _on_wave_ended_for_save(wave: int, _killed: int, _breached: int) -> void:
 	var config := ConfigFile.new()
 	var path := "user://save_data.cfg"
@@ -157,11 +179,24 @@ func _input(event: InputEvent) -> void:
 		KEY_2: _placement_mode = "tower"; _selected_tower_id = "ice"
 		KEY_3: _placement_mode = "tower"; _selected_tower_id = "arrow"
 		KEY_F12: _self_test()
+		KEY_F11: _toggle_fullscreen()
+
+
+func _toggle_fullscreen() -> void:
+	var mode := DisplayServer.window_get_mode()
+	if mode == DisplayServer.WINDOW_MODE_FULLSCREEN:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+	else:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 
 
 func _self_test() -> void:
 	print("\n=== SELF-TEST ===")
 	var p := 0; var f := 0
+
+	# Cleanup from previous run
+	_tower_system.sell_tower(15, 7); _tower_system.sell_tower(14, 7)
+	_obstacle_block.remove_block(10, 7)
 
 	# 1. Block placement + path change
 	var before := _pathfinding.get_path_length()

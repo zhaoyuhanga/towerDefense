@@ -178,15 +178,38 @@ func _on_effect_expired(timer: Timer) -> void:
 func _draw() -> void:
 	if not is_active:
 		return
-	var color := Color.RED if current_health > 0 else Color.DARK_GRAY
+	var base_color := Color.RED
+	var size := 10.0
+	if data:
+		match data.tier:
+			"Elite": size = 14.0; base_color = Color.ORANGE
+			"Boss": size = 20.0; base_color = Color.PURPLE
 	if _speed_multiplier < 1.0:
-		color = Color.CYAN
+		base_color = base_color.lerp(Color.CYAN, 0.5)
 	match state:
-		MonsterState.SPAWNING: color = Color.ORANGE
-		MonsterState.DYING: color = Color.DARK_RED
-		MonsterState.BREACHED: color = Color.DIM_GRAY
-	draw_circle(Vector2.ZERO, 12.0, color)
-	draw_circle(Vector2.ZERO, 14.0, Color.WHITE, false, 2.0)
+		MonsterState.SPAWNING: base_color.a = 0.5
+		MonsterState.DYING: base_color = Color.DARK_RED
+		MonsterState.BREACHED: base_color = Color.DIM_GRAY
+
+	# Body — rounded square
+	draw_rect(Rect2(-size, -size*0.7, size*2, size*1.4), base_color, true, 4.0)
+	# Eyes
+	var eye_color := Color.WHITE if state != MonsterState.DYING else Color.DIM_GRAY
+	draw_circle(Vector2(-size*0.35, -size*0.15), size*0.25, eye_color)
+	draw_circle(Vector2(size*0.35, -size*0.15), size*0.25, eye_color)
+	draw_circle(Vector2(-size*0.35, -size*0.15), size*0.12, Color.BLACK)
+	draw_circle(Vector2(size*0.35, -size*0.15), size*0.12, Color.BLACK)
+	# Mouth
+	draw_arc(Vector2(0, size*0.1), size*0.4, 0, PI, 8, Color.BLACK, 1.5)
+	# Feet
+	draw_rect(Rect2(-size*0.6, size*0.6, size*0.4, size*0.4), base_color.darkened(0.3), true, 2.0)
+	draw_rect(Rect2(size*0.2, size*0.6, size*0.4, size*0.4), base_color.darkened(0.3), true, 2.0)
+	# Health bar
+	if current_health > 0 and data:
+		var hp_ratio := current_health / data.health
+		var bar_w := size * 1.8
+		draw_rect(Rect2(-bar_w/2, -size-6, bar_w, 3), Color.DIM_GRAY)
+		draw_rect(Rect2(-bar_w/2, -size-6, bar_w * hp_ratio, 3), Color.GREEN if hp_ratio > 0.5 else (Color.YELLOW if hp_ratio > 0.25 else Color.RED))
 
 
 func _process(delta: float) -> void:

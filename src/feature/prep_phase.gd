@@ -84,10 +84,12 @@ func init() -> void:
 	_previous_phase = Phase.PREP
 	_is_transitioning = false
 
-	# Subscribe to game reset (has_node guard for test safety)
+	# Subscribe to game reset + wave ended (has_node guard for test safety)
 	if has_node("/root/SignalBus"):
 		if not SignalBus.game_reset_requested.is_connected(_on_game_reset):
 			SignalBus.game_reset_requested.connect(_on_game_reset)
+		if not SignalBus.wave_ended.is_connected(func(_w,_k,_b): on_wave_ended()):
+			SignalBus.wave_ended.connect(func(_w,_k,_b): on_wave_ended())
 
 
 # ==============================================================================
